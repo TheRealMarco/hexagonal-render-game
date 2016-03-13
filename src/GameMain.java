@@ -23,7 +23,7 @@ public class GameMain {
 	protected static Clock clock = new Clock();
 	
 	protected static Color backgroundColor = new Color(134,193,252);
-	protected static Music gameMusic = new Music();
+	//protected static Music gameMusic = new Music();
 	
 	static View camera = new View(new FloatRect(0, 0,1920, 1080)); 
 	
@@ -104,8 +104,8 @@ public class GameMain {
 		window.setFramerateLimit(30);
 		
 		window.setView(camera);
-		gameMusic.openFromFile(Paths.get("src/musique.wav"));
-		gameMusic.setLoop(true);
+		//gameMusic.openFromFile(Paths.get("src/musique.wav"));
+		//gameMusic.setLoop(true);
 		//gameMusic.play();
 		HexaStruct.mapTexture[0].loadFromFile(Paths.get("src/Tiles/Terrain/Grass/grass_05.png"));
 		HexaStruct.mapTexture[1].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_archery.png"));
@@ -293,7 +293,7 @@ public class GameMain {
 							loadMap.get(z).get(y).setType(7);
 							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
-							population.setValue(population.getValue()+5)
+							population.setValue(population.getValue()+5);
 							break;
 						}
 					}
