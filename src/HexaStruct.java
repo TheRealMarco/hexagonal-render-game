@@ -5,7 +5,7 @@ import org.jsfml.system.Vector2f;
 public class HexaStruct {
 	
 	protected RectangleShape hexaSprite = new RectangleShape(new Vector2f(120f,140f));
-	protected int TileType;
+	protected int tileType;
 	public static Texture mapTexture[] = {new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture(),new Texture()}; 
 	
 	public HexaStruct() {
@@ -25,8 +25,12 @@ public class HexaStruct {
 	}
 	
 	public void setType(int type){
-		TileType = type;
+		tileType = type;
 		this.setTexture(type);
+	}
+	
+	public int getType(){
+		return this.tileType;
 	}
 
 }

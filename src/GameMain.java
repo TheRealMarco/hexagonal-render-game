@@ -9,15 +9,20 @@ import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
+import org.jsfml.system.Clock;
+
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
-import org.jsfml.window.WindowStyle;
+
 import org.jsfml.window.event.Event;
 
 public class GameMain {
 	
-	protected static Color backgroundColor = new Color(202,255,230);
+	
+	protected static Clock clock = new Clock();
+	
+	protected static Color backgroundColor = new Color(134,193,252);
 	protected static Music gameMusic = new Music();
 	
 	static View camera = new View(new FloatRect(0, 0,1920, 1080)); 
@@ -84,10 +89,16 @@ public class GameMain {
 	protected static int y;
 	
 	
+	protected static Ressource argent = new Ressource(200,"Argent");
+	protected static Ressource bois = new Ressource(200,"Bois");
+	protected static Ressource pierre = new Ressource(200,"Pierre");
+	protected static Ressource nourriture = new Ressource(200,"Nourriture");
+	protected static Ressource population = new Ressource (50,"Population");
+	
 	public static void main(String[] args) throws IOException {
 		
 		RenderWindow window = new RenderWindow();
-		window.create(new VideoMode(1920, 1080), "Hexagonal Game", WindowStyle.FULLSCREEN);
+		window.create(new VideoMode(1920, 1080), "Hexagonal Game");
 
 	
 		window.setFramerateLimit(30);
@@ -95,12 +106,12 @@ public class GameMain {
 		window.setView(camera);
 		gameMusic.openFromFile(Paths.get("src/musique.wav"));
 		gameMusic.setLoop(true);
-		gameMusic.play();
+		//gameMusic.play();
 		HexaStruct.mapTexture[0].loadFromFile(Paths.get("src/Tiles/Terrain/Grass/grass_05.png"));
 		HexaStruct.mapTexture[1].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_archery.png"));
 		HexaStruct.mapTexture[2].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_archway.png"));
 		HexaStruct.mapTexture[3].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_blacksmith.png"));
-		HexaStruct.mapTexture[4].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_cabin.png"));
+		HexaStruct.mapTexture[4].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_mine.png"));
 		HexaStruct.mapTexture[5].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_church.png"));
 		HexaStruct.mapTexture[6].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_farm.png"));
 		HexaStruct.mapTexture[7].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_house.png"));
@@ -122,8 +133,17 @@ public class GameMain {
 		while(window.isOpen()) {
 		   
 		    window.clear(backgroundColor);
-
+		     
+		    //maj des ressources 
 		    
+		    if( clock.getElapsedTime().asMilliseconds() > 2000){
+		    	clock.restart();
+		    	bois.addProductionToValue();
+		    	pierre.addProductionToValue();
+		    	argent.addProductionToValue();
+		    	nourriture.addProductionToValue();
+		    	
+		    }
 		    
 
 		    for(int z = 0; z < loadMap.size(); z++){
@@ -188,8 +208,10 @@ public class GameMain {
 			if(Keyboard.isKeyPressed(Keyboard.Key.NUM1)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(1);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
 							break;
 						}
@@ -199,8 +221,10 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM2)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(2);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
 							break;
 						}
@@ -210,8 +234,10 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM3)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(3);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
 							break;
 						}
@@ -221,9 +247,12 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM4)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(4);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
+							pierre.setProduction(1, true);
 							break;
 						}
 					}
@@ -232,8 +261,10 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM5)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(5);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
 							break;
 						}
@@ -243,9 +274,12 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM6)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(6);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
+							nourriture.setProduction(1, true);
 							break;
 						}
 					}
@@ -254,9 +288,12 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM7)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(7);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
+							population.setValue(population.getValue()+5)
 							break;
 						}
 					}
@@ -265,8 +302,10 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM8)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(8);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
 							break;
 						}
@@ -276,9 +315,12 @@ public class GameMain {
 			else if(Keyboard.isKeyPressed(Keyboard.Key.NUM9)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
-						if(cursorTab[z][y] == 1){
+						if(cursorTab[z][y] == 1 && mapTab[z][y] == 0 && bois.getValue() >= 25){
+							bois.setValue(bois.getValue()-25);
 							loadMap.get(z).get(y).setType(9);
+							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
+							bois.setProduction(1, true);
 							break;
 						}
 					}
