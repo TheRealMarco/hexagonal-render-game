@@ -14,7 +14,7 @@ import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
-
+import org.jsfml.window.WindowStyle;
 import org.jsfml.window.event.Event;
 
 public class GameMain {
@@ -142,6 +142,7 @@ public class GameMain {
 		    	pierre.addProductionToValue();
 		    	argent.addProductionToValue();
 		    	nourriture.addProductionToValue();
+		    	System.out.println(bois.getValue());
 		    	
 		    }
 		    
@@ -252,7 +253,7 @@ public class GameMain {
 							loadMap.get(z).get(y).setType(4);
 							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
-							pierre.setProduction(1, true);
+							pierre.setProduction(2, true);
 							break;
 						}
 					}
@@ -279,7 +280,7 @@ public class GameMain {
 							loadMap.get(z).get(y).setType(6);
 							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
-							nourriture.setProduction(1, true);
+							nourriture.setProduction(2, true);
 							break;
 						}
 					}
@@ -320,7 +321,7 @@ public class GameMain {
 							loadMap.get(z).get(y).setType(9);
 							mapTab[z][y] = loadMap.get(z).get(y).getType();
 							z = cursorTab.length - 1;
-							bois.setProduction(1, true);
+							bois.setProduction(2, true);
 							break;
 						}
 					}
