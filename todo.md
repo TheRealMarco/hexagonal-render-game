@@ -1,2 +1,2 @@
-# To do 
+# To do
 - [ ] faire une todo liste
