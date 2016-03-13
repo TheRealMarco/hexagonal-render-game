@@ -1,2 +1,2 @@
 # To Do
-- [x] faire une ToDo liste 
+- [ ] faire une ToDo liste 
