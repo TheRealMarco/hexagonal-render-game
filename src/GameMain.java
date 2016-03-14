@@ -19,14 +19,40 @@ import org.jsfml.window.event.Event;
 
 public class GameMain {
 	
-	
+	//l'horloge pour le temps 
 	protected static Clock clock = new Clock();
-	
-	protected static Color backgroundColor = new Color(134,193,252);
+	//couleur du fond 
+	protected static Color backgroundColor = new Color(20,135,252);
+	//pour la musqiue 
 	//protected static Music gameMusic = new Music();
 	
+	//la camera ( zone que l'on affiche )
 	static View camera = new View(new FloatRect(0, 0,1920, 1080)); 
 	
+	//les tableau 2d de type HexaStruct ( voir classe hexastruct ) pour la map et le curseur 
+	protected static ArrayList<ArrayList<HexaStruct>> loadMap = new ArrayList<ArrayList<HexaStruct>>(); 
+	protected static ArrayList<ArrayList<RectangleShape>> loadCursor = new ArrayList<ArrayList<RectangleShape>>(); 
+	
+	//les textures du curseur 
+	protected static Texture cursorTexture = new Texture();
+	protected static Texture noCursorTexture = new Texture();
+	
+	//la bar de status 
+	protected static RectangleShape statusBar = new RectangleShape(new Vector2f(1920,150));
+	protected static Texture barTexture = new Texture();
+	
+	//x et y sont utilisés dans les boucles for qui parcours les tableaus 
+	protected static int x;
+	protected static int y;
+	
+	//les différentes ressources du jeu 
+	protected static Ressource argent = new Ressource(200,"Argent");
+	protected static Ressource bois = new Ressource(200,"Bois");
+	protected static Ressource pierre = new Ressource(200,"Pierre");
+	protected static Ressource nourriture = new Ressource(200,"Nourriture");
+	protected static Ressource population = new Ressource (50,"Population");
+	
+	//le tableau 2D de la map 
 	protected static int mapTab[][] = { 
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -50,7 +76,7 @@ public class GameMain {
 			
 			
 		};
-	
+	//le tableau 2D du curseur 
 	protected static int cursorTab[][] = { 
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -77,30 +103,13 @@ public class GameMain {
 	
 	
 	
-	protected static ArrayList<ArrayList<HexaStruct>> loadMap = new ArrayList<ArrayList<HexaStruct>>(); 
-	protected static ArrayList<ArrayList<RectangleShape>> loadCursor = new ArrayList<ArrayList<RectangleShape>>(); 
-	
-	protected static Texture cursorTexture = new Texture();
-	protected static Texture noCursorTexture = new Texture();
-	
-	
-	
-	protected static int x;
-	protected static int y;
-	
-	
-	protected static Ressource argent = new Ressource(200,"Argent");
-	protected static Ressource bois = new Ressource(200,"Bois");
-	protected static Ressource pierre = new Ressource(200,"Pierre");
-	protected static Ressource nourriture = new Ressource(200,"Nourriture");
-	protected static Ressource population = new Ressource (50,"Population");
-	
+
+	//methode main 
 	public static void main(String[] args) throws IOException {
 		
+		//parametrage de la fenetre 
 		RenderWindow window = new RenderWindow();
-		window.create(new VideoMode(1920, 1080), "Hexagonal Game");
-
-	
+		window.create(new VideoMode(1920, 1080), "Hexagonal Game", WindowStyle.FULLSCREEN);
 		window.setFramerateLimit(30);
 		
 		window.setView(camera);
@@ -127,6 +136,9 @@ public class GameMain {
 		cursorTexture.loadFromFile(Paths.get("src/Tiles/cursor.png"));
 		noCursorTexture.loadFromFile(Paths.get("src/Tiles/noCursor.png"));
 		
+		barTexture.loadFromFile(Paths.get("src/Tiles/statusBar.png"));
+		statusBar.setTexture(barTexture);
+		statusBar.setPosition(new Vector2f(0, 1080-150));
 		mapGenerator();
 		cursorGenerator();
 		
@@ -160,6 +172,7 @@ public class GameMain {
 			}
 		    
 		    window.setView(camera);
+		    window.draw(statusBar);
 		    window.display();
 		    
 		    for(Event event : window.pollEvents()) {
@@ -169,18 +182,22 @@ public class GameMain {
 					window.close();
 					}
 				}
-			 
+			//déplacements de la camera 
 			if(Keyboard.isKeyPressed(Keyboard.Key.UP)){
 				camera.move(new Vector2f(0,-15f));
+				statusBar.move(new Vector2f(0, -15f));
 			}
 			else if(Keyboard.isKeyPressed(Keyboard.Key.DOWN)){
 				camera.move(new Vector2f(0,15f));
+				statusBar.move(new Vector2f(0, 15f));
 			}
 			if(Keyboard.isKeyPressed(Keyboard.Key.RIGHT)){
 				camera.move(new Vector2f(15f,0));
+				statusBar.move(new Vector2f(15f, 0));
 			}
 			else if(Keyboard.isKeyPressed(Keyboard.Key.LEFT)){
 				camera.move(new Vector2f(-15f,0));
+				statusBar.move(new Vector2f(-15f, 0));
 			}
 			
 		
