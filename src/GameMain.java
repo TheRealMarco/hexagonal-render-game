@@ -19,40 +19,40 @@ import org.jsfml.window.event.Event;
 
 public class GameMain {
 	
-	//l'horloge pour le temps 
+	// L'horloge pour le temps 
 	protected static Clock clock = new Clock();
-	//couleur du fond 
+	// Couleur du fond 
 	protected static Color backgroundColor = new Color(20,135,252);
-	//pour la musqiue 
+	// Gestionnaire de musqiue 
 	//protected static Music gameMusic = new Music();
 	
-	//la camera ( zone que l'on affiche )
+	// La camera (zone que l'on affiche)
 	static View camera = new View(new FloatRect(0, 0,1920, 1080)); 
 	
-	//les tableau 2d de type HexaStruct ( voir classe hexastruct ) pour la map et le curseur 
+	// Les tableaux 2D de type HexaStruct (voir classe hexastruct) pour la map et le curseur 
 	protected static ArrayList<ArrayList<HexaStruct>> loadMap = new ArrayList<ArrayList<HexaStruct>>(); 
 	protected static ArrayList<ArrayList<RectangleShape>> loadCursor = new ArrayList<ArrayList<RectangleShape>>(); 
 	
-	//les textures du curseur 
+	// Les textures du curseur 
 	protected static Texture cursorTexture = new Texture();
 	protected static Texture noCursorTexture = new Texture();
 	
-	//la bar de status 
+	// La barre de status 
 	protected static RectangleShape statusBar = new RectangleShape(new Vector2f(1920,150));
 	protected static Texture barTexture = new Texture();
 	
-	//x et y sont utilisés dans les boucles for qui parcours les tableaus 
+	// x et y sont utilisÃ©s dans les boucles for qui parcours les tableaux
 	protected static int x;
 	protected static int y;
 	
-	//les différentes ressources du jeu 
+	// Les diffÃ©rentes ressources du jeu 
 	protected static Ressource argent = new Ressource(200,"Argent");
 	protected static Ressource bois = new Ressource(200,"Bois");
 	protected static Ressource pierre = new Ressource(200,"Pierre");
 	protected static Ressource nourriture = new Ressource(200,"Nourriture");
 	protected static Ressource population = new Ressource (50,"Population");
 	
-	//le tableau 2D de la map 
+	// Le tableau 2D de la map 
 	protected static int mapTab[][] = { 
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -71,12 +71,9 @@ public class GameMain {
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{13,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			
-	
-			
-			
 		};
-	//le tableau 2D du curseur 
+	
+	// Le tableau 2D du curseur 
 	protected static int cursorTab[][] = { 
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -95,23 +92,15 @@ public class GameMain {
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			
-	
-			
-			
 		};
 	
-	
-	
-
-	//methode main 
+	// Methode main : point d'entree du programme
 	public static void main(String[] args) throws IOException {
 		
-		//parametrage de la fenetre 
+		// Parametrage de la fenetre 
 		RenderWindow window = new RenderWindow();
 		window.create(new VideoMode(1920, 1080), "Hexagonal Game", WindowStyle.FULLSCREEN);
 		window.setFramerateLimit(30);
-		
 		window.setView(camera);
 		//gameMusic.openFromFile(Paths.get("src/musique.wav"));
 		//gameMusic.setLoop(true);
@@ -127,7 +116,7 @@ public class GameMain {
 		HexaStruct.mapTexture[8].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_largeCastle.png"));
 		HexaStruct.mapTexture[9].loadFromFile(Paths.get("src/Tiles/Medieval/medieval_lumber.png"));
 		
-		//autres textures 
+		// Autres textures 
 		HexaStruct.mapTexture[10].loadFromFile(Paths.get("src/Tiles/Terrain/Grass/grass_12.png"));
 		HexaStruct.mapTexture[11].loadFromFile(Paths.get("src/Tiles/Terrain/Grass/grass_17.png"));
 		HexaStruct.mapTexture[12].loadFromFile(Paths.get("src/Tiles/Terrain/Grass/grass_11.png"));
@@ -146,27 +135,24 @@ public class GameMain {
 		   
 		    window.clear(backgroundColor);
 		     
-		    //maj des ressources 
-		    
-		    if( clock.getElapsedTime().asMilliseconds() > 2000){
+		    // Maj des ressources 
+		    if (clock.getElapsedTime().asMilliseconds() > 2000) {
 		    	clock.restart();
 		    	bois.addProductionToValue();
 		    	pierre.addProductionToValue();
 		    	argent.addProductionToValue();
 		    	nourriture.addProductionToValue();
 		    	System.out.println(bois.getValue());
-		    	
 		    }
 		    
-
-		    for(int z = 0; z < loadMap.size(); z++){
-				for(int y = 0; y < loadMap.get(z).size(); y++){
+		    for (int z = 0; z < loadMap.size(); z++) {
+				for (int y = 0; y < loadMap.get(z).size(); y++) {
 					window.draw(loadMap.get(z).get(y).display());
 				}
 			}
 		    
-		    for(int z = 0; z < loadCursor.size(); z++){
-				for(int y = 0; y < loadCursor.get(z).size(); y++){
+		    for (int z = 0; z < loadCursor.size(); z++) {
+				for (int y = 0; y < loadCursor.get(z).size(); y++) {
 					window.draw(loadCursor.get(z).get(y));
 				}
 			}
@@ -175,34 +161,32 @@ public class GameMain {
 		    window.draw(statusBar);
 		    window.display();
 		    
-		    for(Event event : window.pollEvents()) {
+		    for (Event event : window.pollEvents()) {
 				 
-				if(event.type == Event.Type.CLOSED || Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
-					
+				if (event.type == Event.Type.CLOSED || Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
 					window.close();
 					}
 				}
-			//déplacements de la camera 
-			if(Keyboard.isKeyPressed(Keyboard.Key.UP)){
+		    
+			// Deplacements de la camera 
+			if (Keyboard.isKeyPressed(Keyboard.Key.UP)) {
 				camera.move(new Vector2f(0,-15f));
 				statusBar.move(new Vector2f(0, -15f));
 			}
-			else if(Keyboard.isKeyPressed(Keyboard.Key.DOWN)){
+			else if (Keyboard.isKeyPressed(Keyboard.Key.DOWN)) {
 				camera.move(new Vector2f(0,15f));
 				statusBar.move(new Vector2f(0, 15f));
 			}
-			if(Keyboard.isKeyPressed(Keyboard.Key.RIGHT)){
+			if (Keyboard.isKeyPressed(Keyboard.Key.RIGHT)) {
 				camera.move(new Vector2f(15f,0));
 				statusBar.move(new Vector2f(15f, 0));
 			}
-			else if(Keyboard.isKeyPressed(Keyboard.Key.LEFT)){
+			else if (Keyboard.isKeyPressed(Keyboard.Key.LEFT)) {
 				camera.move(new Vector2f(-15f,0));
 				statusBar.move(new Vector2f(-15f, 0));
 			}
 			
-		
-			
-			//mouv curseur 
+			// Mouvement du curseur 
 			if(Keyboard.isKeyPressed(Keyboard.Key.Z)){
 				mouveCursor(1);
 				cursorGenerator();
@@ -220,9 +204,7 @@ public class GameMain {
 				cursorGenerator();
 			}
 			
-			
-			
-			//action on a item 
+			// Action sur un item 
 			if(Keyboard.isKeyPressed(Keyboard.Key.NUM1)){
 				for(int z = 0; z < cursorTab.length; z++){
 					for(int y = 0; y < cursorTab[z].length; y++){
@@ -345,9 +327,7 @@ public class GameMain {
 				}
 			}
 		}
-
 	}
-	
 	
 	public static void mapGenerator(){
 		for(int i = 0; i < mapTab.length; i++){
@@ -356,16 +336,9 @@ public class GameMain {
 					x=i*120+(j)*(120/2);
 					y=j*104;
 				
-				
 	                loadMap.get(i).add(new HexaStruct());
 					loadMap.get(i).get(j).setPosition(x,y);
 					loadMap.get(i).get(j).setType(mapTab[i][j]);
-				
-				
-				
-				
-				
-   
 			}
 		}
 	}
@@ -426,15 +399,9 @@ public class GameMain {
 						cursorTab[i-1][j] = 1;
 						i = cursorTab.length - 1;
 						break;
-						
 					}
-               
 				}
-			
 			}
 		}
 	}
-	
-	
-
 }
